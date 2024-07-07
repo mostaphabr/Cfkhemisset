@@ -12,7 +12,8 @@ class InstitutController extends Controller
      */
     public function index()
     {
-        //
+        $instituts = Institut::all();
+        return response()->json($instituts);
     }
 
     /**
