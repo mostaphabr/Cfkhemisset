@@ -1,4 +1,4 @@
 run composer require laravel/sanctum 
 
 
-there is a sql file in database folder to import, contains data
+there is a sql file in database folder to import, contains data (before added columns to migration)
