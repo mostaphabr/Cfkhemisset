@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\ApiAuthentification;
 use App\Http\Controllers\InstitutController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,6 +20,11 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
     
 });
+
+
+Route::post('login', [ApiAuthentification::class, 'loginAdmin']);
+Route::post('createUser', [ApiAuthentification::class, 'createCAD']);
+
 
 // Route::middleware(['auth'])->group(function(){
     Route::get('instituts', [InstitutController::class, 'index']);

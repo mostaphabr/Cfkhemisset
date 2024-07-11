@@ -19,7 +19,8 @@ class SecteurFactory extends Factory
     {
         return [
            'nom_secteur' => fake()->company() ,
-           'institut_id' => Institut::inRandomOrder()->first()->id ,
+           'institut_id' =>Institut::factory(),
+
         ];
     }
 }

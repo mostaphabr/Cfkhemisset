@@ -23,7 +23,7 @@ class FiliereFactory extends Factory
     {
         return [
             'nom_filiere' => fake()->company,
-            'secteur_id' => Secteur::inRandomOrder()->first()->id,
+            'secteur_id' => Secteur::factory(),
         ];
     }
 }
