@@ -29,3 +29,17 @@ Route::post('createUser', [ApiAuthentification::class, 'createCAD']);
 // Route::middleware(['auth'])->group(function(){
     Route::get('instituts', [InstitutController::class, 'index']);
 // });
+
+
+
+
+/*
+users : 
+institutes : nombreStagiaires subTitle : CSM Tiflet  phone adress image location nbrStagiaire
+evenements : title date desc img
+filieres : type 
+secteur : 
+options : type
+
+
+*/
