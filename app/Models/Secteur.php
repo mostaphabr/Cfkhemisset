@@ -9,6 +9,9 @@ class Secteur extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nom_secteur',
+    ];
     public function institut(){
         return $this->belongsTo(Institut::class);
     }

@@ -9,6 +9,9 @@ class Option extends Model
 {
     use HasFactory;
 
+    protected $fillable = [
+        'nom_option',
+    ];
     public function filiere(){
         return $this->belongsTo(Filiere::class);
     }

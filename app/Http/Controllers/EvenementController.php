@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Evenement;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class EvenementController extends Controller
 {
@@ -12,7 +13,8 @@ class EvenementController extends Controller
      */
     public function index()
     {
-        //
+        $evenements = Evenement::all();
+        return response()->json($evenements);
     }
 
     /**
@@ -20,7 +22,8 @@ class EvenementController extends Controller
      */
     public function create()
     {
-        //
+        // Return data needed for creating a new event
+        return response()->json(['message' => 'Form data for creating an event']);
     }
 
     /**
@@ -28,7 +31,22 @@ class EvenementController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'titre' => 'required|string|max:255',
+            'description' => 'required|string',
+            'type' => 'required|in:annonce,activite',
+        ]);
+        
+        $institut_id = Auth::user()->institut_id;
+
+        $evenement = Evenement::create([
+            'titre' => $request->titre,
+            'description' => $request->description,
+            'type' => $request->type,
+            'institut_id' => $institut_id,
+        ]);
+
+        return response()->json($evenement, 201);
     }
 
     /**
@@ -36,7 +54,7 @@ class EvenementController extends Controller
      */
     public function show(Evenement $evenement)
     {
-        //
+        return response()->json($evenement);
     }
 
     /**
@@ -44,7 +62,8 @@ class EvenementController extends Controller
      */
     public function edit(Evenement $evenement)
     {
-        //
+        // Return data needed for editing an event
+        return response()->json(['message' => 'Form data for editing an event', 'evenement' => $evenement]);
     }
 
     /**
@@ -52,7 +71,20 @@ class EvenementController extends Controller
      */
     public function update(Request $request, Evenement $evenement)
     {
-        //
+        $request->validate([
+            'titre' => 'required|string|max:255',
+            'description' => 'required|string',
+            'type' => 'required|in:annonce,activite',
+        ]);
+
+        $evenement->update([
+            'titre' => $request->titre ?? $evenement->titre,
+            'description' => $request->description ?? $evenement->description,
+            'type' => $request->type ?? $evenement->type,
+            'institut_id' => Auth::user()->institut_id, // Ensuring the institut_id remains the same
+        ]);
+
+        return response()->json($evenement);
     }
 
     /**
@@ -60,6 +92,8 @@ class EvenementController extends Controller
      */
     public function destroy(Evenement $evenement)
     {
-        //
+        $evenement->delete();
+
+        return response()->json(null, 204);
     }
 }

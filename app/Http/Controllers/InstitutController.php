@@ -21,7 +21,8 @@ class InstitutController extends Controller
      */
     public function create()
     {
-        //
+        // Return data needed for creating a new institute
+        return response()->json(['message' => 'Form data for creating an institute']);
     }
 
     /**
@@ -29,7 +30,13 @@ class InstitutController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom_institut' => 'required|string|max:255',
+        ]);
+
+        $institut = Institut::create($request->all());
+
+        return response()->json($institut, 201);
     }
 
     /**
@@ -37,7 +44,7 @@ class InstitutController extends Controller
      */
     public function show(Institut $institut)
     {
-        //
+        return response()->json($institut);
     }
 
     /**
@@ -45,7 +52,8 @@ class InstitutController extends Controller
      */
     public function edit(Institut $institut)
     {
-        //
+        // Return data needed for editing an institute
+        return response()->json(['message' => 'Form data for editing an institute', 'institut' => $institut]);
     }
 
     /**
@@ -53,7 +61,13 @@ class InstitutController extends Controller
      */
     public function update(Request $request, Institut $institut)
     {
-        //
+        $request->validate([
+            'nom_institut' => 'sometimes|required|string|max:255',
+        ]);
+
+        $institut->update($request->all());
+
+        return response()->json($institut);
     }
 
     /**
@@ -61,6 +75,8 @@ class InstitutController extends Controller
      */
     public function destroy(Institut $institut)
     {
-        //
+        $institut->delete();
+
+        return response()->json(null, 204);
     }
 }

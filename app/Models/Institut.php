@@ -7,8 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Institut extends Model
 {
+
     use HasFactory;
 
+    protected $fillable = [
+        'nom_institut',
+    ];
+    
     public function users()
     {
         return $this->hasMany(User::class);

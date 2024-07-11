@@ -1,5 +1,4 @@
 <?php
-
 namespace App\Http\Controllers;
 
 use App\Models\Option;
@@ -12,15 +11,8 @@ class OptionController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $options = Option::all();
+        return response()->json($options);
     }
 
     /**
@@ -28,7 +20,17 @@ class OptionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom_option' => 'required|string|max:255',
+            'filiere_id' => 'required|exists:filieres,id',
+        ]);
+
+        $option = Option::create([
+            'nom_option' => $request->nom_option,
+            'filiere_id' => $request->filiere_id,
+        ]);
+
+        return response()->json($option, 201);
     }
 
     /**
@@ -36,15 +38,7 @@ class OptionController extends Controller
      */
     public function show(Option $option)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Option $option)
-    {
-        //
+        return response()->json($option);
     }
 
     /**
@@ -52,7 +46,17 @@ class OptionController extends Controller
      */
     public function update(Request $request, Option $option)
     {
-        //
+        $request->validate([
+            'nom_option' => 'sometimes|required|string|max:255',
+            'filiere_id' => 'sometimes|required|exists:filieres,id',
+        ]);
+
+        $option->update([
+            'nom_option' => $request->nom_option ?? $option->nom_option,
+            'filiere_id' => $request->filiere_id ?? $option->filiere_id,
+        ]);
+
+        return response()->json($option);
     }
 
     /**
@@ -60,6 +64,8 @@ class OptionController extends Controller
      */
     public function destroy(Option $option)
     {
-        //
+        $option->delete();
+
+        return response()->json(null, 204);
     }
 }

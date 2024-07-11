@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Secteur;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SecteurController extends Controller
 {
@@ -12,15 +13,8 @@ class SecteurController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     */
-    public function create()
-    {
-        //
+        $secteurs = Secteur::all();
+        return response()->json($secteurs);
     }
 
     /**
@@ -28,7 +22,18 @@ class SecteurController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'nom_secteur' => 'required|string|max:255',
+        ]);
+
+        $institut_id = Auth::user()->institut_id;
+
+        $secteur = Secteur::create([
+            'nom_secteur' => $request->nom_secteur,
+            'institut_id' => $institut_id,
+        ]);
+
+        return response()->json($secteur, 201);
     }
 
     /**
@@ -36,15 +41,7 @@ class SecteurController extends Controller
      */
     public function show(Secteur $secteur)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     */
-    public function edit(Secteur $secteur)
-    {
-        //
+        return response()->json($secteur);
     }
 
     /**
@@ -52,7 +49,18 @@ class SecteurController extends Controller
      */
     public function update(Request $request, Secteur $secteur)
     {
-        //
+        $request->validate([
+            'nom_secteur' => 'sometimes|required|string|max:255',
+        ]);
+
+        $institut_id = Auth::user()->institut_id;
+
+        $secteur->update([
+            'nom_secteur' => $request->nom_secteur ?? $secteur->nom_secteur,
+            'institut_id' => $institut_id,
+        ]);
+
+        return response()->json($secteur);
     }
 
     /**
@@ -60,6 +68,8 @@ class SecteurController extends Controller
      */
     public function destroy(Secteur $secteur)
     {
-        //
+        $secteur->delete();
+
+        return response()->json(null, 204);
     }
 }
